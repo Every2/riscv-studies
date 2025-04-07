@@ -1,15 +1,9 @@
 # riscv-studies
-Learning riscv asm
+Learning x86
 
 # How to run
 
-Install RISCV toolchain for Linux. In arch linux:
+Go to some folder and run:
 
 
-`sudo pacman -S qemu-full riscv64-elf-gcc riscv64-elf-binutils`
-
-
-Now just go to a folder and run:
-
-
-`make run`
+`make run` 
