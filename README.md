@@ -1,4 +1,4 @@
-# riscv-studies
+# x86-studies
 Learning x86
 
 # How to run
