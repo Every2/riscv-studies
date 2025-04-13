@@ -26,4 +26,37 @@ _start:
     mov ebx, eax   ; factorial returns the answer in eax, but
                    ; we want it in ebx to send it as our exit
                    ; status
+    mov eax, 1	   ; call the kernel's exit function
+    int 0x80
+
+; This is the actual function definition
+factorial:
+    push ebp ; standard function stuff - we have to
+             ; restore ebp to its prior state before
+             ; returning, so we have to push it
+    mov ebp, esp ; This is because we don't want to modify
+                 ; the stack pointer, so we use ebp. 
+    mov eax, [ebp + 8] ; This moves the first argument to eax
+                       ; [ebp + 4] holds the return address, and
+                       ; [ebp + 8] holds the first parameter
+    cmp eax, 1 ; If the number is 1, that is our base
+               ; case, and we simply return (1 is
+               ; already in eax as the return value)
+    je end_factorial
+    dec eax ; Otherwise, decrease the value
+    push eax ; push it for our call to factorial
+    call factorial ; call factorial
+    mov ebx, [ebp + 8] ; eax has the return value, so we
+                       ; reload our parameter into ebx
+    imul eax, ebx      ; multiply that by the result of the
+                       ; last call to factorial (in eax)
+                       ; the answer is stored in eax, which
+                       ; is good since that's where return
+                       ; values go.
+end_factorial:
+    mov esp, ebp ; standard function return stuff - we 
+    pop ebp	 ; have to restore ebp and esp to where
+    ret		 ; they were before the function started
+                 ; return to the function (this pop the
+                 ; return value, too)
 
